@@ -1,4 +1,8 @@
 import random
+<<<<<<< HEAD
+=======
+import os
+>>>>>>> 3f19eb025ca6e3f7cb63f65ad0fd2c6da094a373
 
 """
 Treap (tree + heap) - a randomized binary search tree with heap properties
@@ -173,6 +177,7 @@ class Treap:
 def inorder_string(treap):
         return " ".join(str(x) for x in treap.inorder())
 
+<<<<<<< HEAD
 
 if __name__ == "__main__":
     passed = 0
@@ -220,3 +225,64 @@ if __name__ == "__main__":
     print(f"\nwhen running my treaps you got: {passed} / {total} tests passed.")
     if passed != total:
         exit(1)
+=======
+# testing framework to run any input file
+def run_test(input_file, output_file):
+    treap = Treap()
+    actual_output = []
+
+    with open(input_file, "r") as f:
+        for line in f:
+            parts = line.strip().split()
+            if not parts:
+                continue
+
+            cmd = parts[0]
+
+            if cmd == "insert":
+                treap.insert(int(parts[1]))
+
+            elif cmd == "erase":
+                treap.erase(int(parts[1]))
+
+            elif cmd == "search":
+                result = treap.search(int(parts[1]))
+                actual_output.append(str(result).lower())
+
+            elif cmd == "inorder":
+                actual_output.append(inorder_string(treap))
+
+    # read expected output
+    with open(output_file, "r") as f:
+        expected_output = [line.strip() for line in f if line.strip()]
+
+    # compare
+    passed = actual_output == expected_output
+
+    print(f"{input_file}: {'PASS' if passed else 'FAIL'}")
+
+    if not passed:
+        print("Expected:")
+        print("\n".join(expected_output))
+        print("Got:")
+        print("\n".join(actual_output))
+
+    return passed
+
+# currently set to only handle 3 tests
+if __name__ == "__main__":
+    base_dir = os.path.dirname(__file__)  
+    io_dir = os.path.join(base_dir, "io")
+
+    total = 3
+    passed = 0
+
+    for i in range(1, total + 1):
+        in_file = os.path.join(io_dir, f"sample.in.{i}")
+        out_file = os.path.join(io_dir, f"sample.out.{i}")
+
+        if run_test(in_file, out_file):
+            passed += 1
+
+    print(f"\nFinal: {passed} / {total} tests passed.")
+>>>>>>> 3f19eb025ca6e3f7cb63f65ad0fd2c6da094a373

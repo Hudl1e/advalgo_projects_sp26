@@ -1,4 +1,14 @@
 import java.util.Random;
+<<<<<<< HEAD
+=======
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+>>>>>>> 3f19eb025ca6e3f7cb63f65ad0fd2c6da094a373
 
 public class treaps {
     /*
@@ -187,12 +197,17 @@ public class treaps {
         String result = "";
         if (!left.isEmpty()) {
             result += left + " ";
+<<<<<<< HEAD
         }; 
+=======
+        }
+>>>>>>> 3f19eb025ca6e3f7cb63f65ad0fd2c6da094a373
         result += node;
         if (!right.isEmpty()) result += " " + right;
         return result;
     }
 
+<<<<<<< HEAD
     /*
     
     */
@@ -246,6 +261,77 @@ public class treaps {
         }
         // test that all of our cases passed and return to user!
         System.out.println("\nwhen running my treaps you got: " + passed + " / " + total + " tests passed.");
+=======
+    private static boolean runTest(String inputFile, String outputFile) {
+        treaps treap = new treaps();
+        List<String> actualOutput = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.trim().split("\\s+");
+                if (parts.length == 0 || parts[0].isEmpty()) continue;
+
+                String cmd = parts[0];
+                if (cmd.equals("insert")) {
+                    treap.insert(Integer.parseInt(parts[1]));
+                } else if (cmd.equals("erase")) {
+                    treap.delete(Integer.parseInt(parts[1]));
+                } else if (cmd.equals("search")) {
+                    boolean result = treap.search(Integer.parseInt(parts[1]));
+                    actualOutput.add(Boolean.toString(result).toLowerCase());
+                } else if (cmd.equals("inorder")) {
+                    actualOutput.add(inorderString(treap));
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to read input file: " + e.getMessage());
+            return false;
+        }
+
+        List<String> expectedOutput = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(outputFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (!line.trim().isEmpty()) {
+                    expectedOutput.add(line.trim());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Failed to read output file: " + e.getMessage());
+            return false;
+        }
+
+        boolean passed = actualOutput.equals(expectedOutput);
+        System.out.println(inputFile + ": " + (passed ? "PASS" : "FAIL"));
+        if (!passed) {
+            System.out.println("Expected:");
+            expectedOutput.forEach(System.out::println);
+            System.out.println("Got:");
+            actualOutput.forEach(System.out::println);
+        }
+
+        return passed;
+    }
+
+    public static void main(String[] args) {
+        Path baseDir = Paths.get(System.getProperty("user.dir"));
+        Path ioDir = baseDir.resolve("io");
+
+        int total = 3;
+        int passed = 0;
+
+        for (int i = 1; i <= total; i++) {
+            String inFile = ioDir.resolve("sample.in." + i).toString();
+            String outFile = ioDir.resolve("sample.out." + i).toString();
+            if (runTest(inFile, outFile)) {
+                passed++;
+            }
+        }
+
+        System.out.println();
+        System.out.println("Final: " + passed + " / " + total + " tests passed.");
+>>>>>>> 3f19eb025ca6e3f7cb63f65ad0fd2c6da094a373
         if (passed != total) {
             System.exit(1);
         }
