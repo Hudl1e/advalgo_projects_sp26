@@ -33,13 +33,12 @@ public class treaps {
     private Node root;
 
     /*
-    the split function takes a node and a key and will split the treap
-    into two: one where all the elements are greater than the key we are at and one where
-    the elements are less than or equal to the key we are at.
-    the way it works is when we are at a node, if the current node is less than or equal to the keys value,
-    we split the nodes right subtree because there may be larger values that we need to split,
-    if the current root key is not less than or equal to the key we are splitting on value, we split the nodes left subtree because there may be smaller values that we need to split.
-    so we will create two treaps both priority ordered, split by key, and we will return them as an array of nodes.
+    Splits the treap into two treaps by key:
+    - left contains all keys <= key
+    - right contains all keys > key
+
+    If root.key <= key, root belongs in the left treap, but some nodes in root.right may still be <= key,
+    so we split root.right. Otherwise root belongs in the right treap, and we split root.left.
     */
     private Node[] split(Node root, int key) {
         if (root == null) {
